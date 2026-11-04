@@ -37,6 +37,7 @@ const kindLabel = {
   situation: l('Ситуація', 'Situation'),
   rule: l('Правило', 'Rule'),
   product: l('Товар', 'Product'),
+  training: l('Тренування', 'Training'),
 }
 
 export function SearchPage() {

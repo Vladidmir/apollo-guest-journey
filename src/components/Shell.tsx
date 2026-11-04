@@ -7,6 +7,7 @@ import { Icon } from './Icon'
 const links = [
   { to: '/', icon: 'home' as const, label: l('Головна', 'Home'), end: true },
   { to: '/tour', icon: 'map' as const, label: l('Карта', 'Map'), end: false },
+  { to: '/training', icon: 'dumbbell' as const, label: l('Тренування', 'Training'), end: false },
   { to: '/situations', icon: 'help' as const, label: l('Допомога', 'Help'), end: false },
   { to: '/search', icon: 'search' as const, label: l('Пошук', 'Search'), end: false },
 ]

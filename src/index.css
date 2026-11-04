@@ -99,7 +99,7 @@ a { color: inherit; }
 
 .nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   border-top: 1px solid var(--line);
   background: rgba(9, 9, 11, 0.92);
   backdrop-filter: blur(16px);
@@ -112,9 +112,11 @@ a { color: inherit; }
   gap: 3px;
   text-decoration: none;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  padding: 6px 0;
+  line-height: 1.15;
+  text-align: center;
+  padding: 6px 2px;
   border-radius: 12px;
 }
 .nav a.on { color: var(--gold); }

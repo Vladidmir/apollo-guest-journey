@@ -16,6 +16,12 @@ const cards: { to: string; icon: IconName; title: ReturnType<typeof l>; text: Re
     text: l('Дізнайся, де що знаходиться', 'See where everything is'),
   },
   {
+    to: '/training',
+    icon: 'dumbbell',
+    title: l('Тренування', 'Training'),
+    text: l('Стартове Full Body, техніка і харчування', 'Starter full-body plan, technique and nutrition'),
+  },
+  {
     to: '/guides',
     icon: 'list',
     title: l('Як користуватися клубом', 'How to use the club'),

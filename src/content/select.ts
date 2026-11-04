@@ -4,6 +4,7 @@ import { getGuide, getGuides } from './guides'
 import { productsFor } from './products'
 import { rules } from './rules'
 import { situations } from './situations'
+import { trainingEventTitle, trainingSearch } from './training'
 import { zoneInfo } from './zones'
 
 export type PlacedZone = ZoneInfo & Room
@@ -40,7 +41,7 @@ export function situationAvailable(club: Club, item: Situation): boolean {
 }
 
 export type SearchHit = {
-  kind: 'zone' | 'guide' | 'situation' | 'rule' | 'product'
+  kind: 'zone' | 'guide' | 'situation' | 'rule' | 'product' | 'training'
   title: string
   text: string
   to: string
@@ -104,6 +105,18 @@ export function searchAll(club: Club, query: string, lang: Lang): SearchHit[] {
     }
   }
 
+  for (const item of trainingSearch) {
+    const blob = hay([item.title.uk, item.title.en, item.text.uk, item.text.en, item.keywords])
+    if (blob.includes(q)) {
+      hits.push({
+        kind: 'training',
+        title: item.title[lang],
+        text: item.text[lang],
+        to: item.to,
+      })
+    }
+  }
+
   for (const product of productsFor(club.id)) {
     const blob = hay([product.title.uk, product.title.en, product.text.uk, product.text.en, product.tag.uk, product.tag.en])
     if (blob.includes(q)) {
@@ -124,6 +137,7 @@ export function eventTitle(raw: string, club: Club, lang: Lang): string {
   if (kind === 'guide') return getGuide(club, id)?.title[lang] ?? id
   if (kind === 'situation') return getSituation(id)?.title[lang] ?? id
   if (kind === 'zone') return zoneInfo[id]?.title[lang] ?? id
+  if (raw === 'training' || raw.startsWith('training:')) return trainingEventTitle(raw, lang) ?? raw
   const pages: Record<string, L> = {
     home: { uk: 'Головна', en: 'Home' },
     tour: { uk: 'Карта', en: 'Map' },
@@ -132,6 +146,7 @@ export function eventTitle(raw: string, club: Club, lang: Lang): string {
     situations: { uk: 'Ситуації', en: 'Situations' },
     help: { uk: 'Допомога', en: 'Help' },
     search: { uk: 'Пошук', en: 'Search' },
+    training: { uk: 'Тренування', en: 'Training' },
   }
   return pages[id]?.[lang] ?? raw
 }
