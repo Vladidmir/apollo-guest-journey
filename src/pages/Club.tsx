@@ -76,7 +76,7 @@ export function ClubPage() {
       <p className="muted">{tx(l('Наведи камеру або відкрий посилання. Клуб перемкнеться сам.', 'Point a camera or open the link. The club switches on its own.'))}</p>
       <div className="qr-grid">
         {qrLinks.map((item) => {
-          const url = `${window.location.origin}/q/${item.code}`
+          const url = `${window.location.origin}${import.meta.env.BASE_URL}q/${item.code}`
           return (
             <article key={item.code} className="qr-card">
               <QrImage value={url} />

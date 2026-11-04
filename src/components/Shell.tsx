@@ -28,7 +28,7 @@ export function Shell() {
       </a>
       <header className="topbar">
         <Link to="/" className="brand" aria-label="APOLLO NEXT">
-          <img className="brand-logo" src="/brand/apollo-next-logo.png" alt="APOLLO NEXT" />
+          <img className="brand-logo" src={`${import.meta.env.BASE_URL}brand/apollo-next-logo.png`} alt="APOLLO NEXT" />
         </Link>
         <Link to="/club" className="club-chip">
           {picked ? `NEXT ${club.code}` : tx(l('Обери клуб', 'Choose a club'))}

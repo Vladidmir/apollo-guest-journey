@@ -1,6 +1,6 @@
 import type { Club } from '../types'
 
-const P = '/photos'
+const P = `${import.meta.env.BASE_URL}photos`
 
 export type MediaShot = {
   src: string

@@ -2,14 +2,14 @@
   "name": "Apollo — Дорога гостя",
   "short_name": "Apollo",
   "description": "Інтерактивний помічник гостя у клубі Apollo",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#09090b",
   "theme_color": "#09090b",
   "lang": "uk",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
