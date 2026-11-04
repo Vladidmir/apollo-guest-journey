@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { ZoneCat } from '../types'
 import type { PlacedZone } from '../content/select'
 import { useApp } from '../state'
@@ -22,15 +23,26 @@ export function FloorPlan({
   const { tx } = useApp()
   const height = Math.max(...rooms.map((room) => room.y + room.h), 200) + 20
 
+  useEffect(() => {
+    if (!active) return
+    const node = document.getElementById(`room-${active}`)
+    const stage = node?.closest('.map-stage')
+    if (!node || !(stage instanceof HTMLElement)) return
+    const nodeRect = node.getBoundingClientRect()
+    const stageRect = stage.getBoundingClientRect()
+    const delta = nodeRect.top - stageRect.top - (stageRect.height - nodeRect.height) / 2
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+    stage.scrollBy({ top: delta, behavior: motion })
+  }, [active])
+
   return (
-    <svg id="floorplan" className="floor" viewBox={`0 0 320 ${height}`} role="group" aria-label={tx({ uk: 'План клубу', en: 'Club plan' })}>
+    <svg id="floorplan" className="floor" width={320} height={height} viewBox={`0 0 320 ${height}`} role="group" aria-label={tx({ uk: 'План клубу', en: 'Club plan' })}>
       <rect x="8" y="8" width="304" height={height - 16} rx="22" fill="#101114" stroke="rgba(255,255,255,.08)" />
       {rooms.map((room) => {
         const faded = dim(room)
         const selected = room.id === active
         const lines = tx(room.short).split('\n')
-        const small = room.w < 40 || room.h < 36
-        const startY = room.y + room.h / 2 - (lines.length - 1) * 7
+        const small = room.w < 48
         return (
           <g
             key={room.id}
@@ -38,6 +50,7 @@ export function FloorPlan({
             tabIndex={faded ? -1 : 0}
             aria-pressed={selected}
             aria-label={tx(room.title)}
+            id={`room-${room.id}`}
             className={faded ? 'room dim' : selected ? 'room selected' : 'room'}
             onClick={() => {
               if (!faded) onSelect(room.id)
@@ -76,15 +89,16 @@ export function FloorPlan({
             )}
             <text
               x={room.x + room.w / 2}
-              y={small ? room.y + room.h / 2 + 4 : startY}
+              y={room.y + room.h / 2}
               textAnchor="middle"
+              dominantBaseline="middle"
               className="map-label"
               clipPath={`url(#clip-${room.id})`}
             >
               {small
                 ? '+'
                 : lines.map((line, index) => (
-                    <tspan key={line} x={room.x + room.w / 2} dy={index === 0 ? 0 : 14}>
+                    <tspan key={line} x={room.x + room.w / 2} dy={index === 0 ? (lines.length - 1) * -7 : 14}>
                       {line}
                     </tspan>
                   ))}
